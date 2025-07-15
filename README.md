@@ -1,4 +1,4 @@
-# Peny Coding Challenge
+# Coding Challenge
 
 Please build your own implementation of a task list full-stack web application following these guidelines (please note that this app is not related to our platform, but rather, a way for us to understand your approach to coding).
 
