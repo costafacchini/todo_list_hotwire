@@ -25,10 +25,23 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to @todo, notice: "Todo was successfully created." }
+        format.html { redirect_to todos_path, notice: "Todo was successfully created." }
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.append("todos", partial: "todos/todo_row", locals: { todo: @todo }),
+            turbo_stream.update("new_todo_form", partial: "todos/new_todo_form", locals: { todo: Todo.new })
+          ]
+        }
         format.json { render :show, status: :created, location: @todo }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.replace(
+            "new_todo_form",
+            partial: "todos/new_todo_form",
+            locals: { todo: @todo }
+          )
+        }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end

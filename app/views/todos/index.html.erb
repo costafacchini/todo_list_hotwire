@@ -7,8 +7,9 @@
 
   <div class="flex justify-between items-center mb-6">
     <h1 class="font-bold text-4xl">Todos</h1>
-    <%= link_to "New todo", new_todo_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
+
+  <%= render "todos/new_todo_form", todo: Todo.new %>
 
   <div id="todos" class="space-y-3">
     <% if @todos.any? %>
@@ -16,7 +17,7 @@
         <%= render "todos/todo_row", todo: todo %>
       <% end %>
     <% else %>
-      <p class="text-center my-10">No todos found.</p>
+      <p class="text-center my-10 text-gray-500">No todos found. Add your first todo above!</p>
     <% end %>
   </div>
 </div>
