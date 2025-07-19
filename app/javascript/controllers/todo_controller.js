@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["title", "form", "display"]
+  static targets = ["title", "form", "display", "checkbox", "completeForm"]
   static values = { originalTitle: String }
 
   connect() {
@@ -22,5 +22,9 @@ export default class extends Controller {
   }
 
   submit(_) {
+  }
+
+  toggleComplete(_) {
+    this.completeFormTarget.requestSubmit()
   }
 }
