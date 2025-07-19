@@ -49,3 +49,7 @@ $ bin/rubocop
 ## Decisions
 
 - I chose to create the Todo model as a single model, without creating a CRUD master/detail (Todo and TodoItem). I think this way is simpler to start with, and you can switch to the other format if needed.
+
+## Improvements
+
+- Use I18n for translations
