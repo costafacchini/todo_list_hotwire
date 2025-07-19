@@ -11,6 +11,16 @@ class TodosController < ApplicationController
     else
                Todo.all
     end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "todos_list",
+          partial: "todos/todos_list"
+        )
+      end
+    end
   end
 
   # GET /todos/1 or /todos/1.json

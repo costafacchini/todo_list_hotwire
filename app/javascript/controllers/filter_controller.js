@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { Turbo } from "@hotwired/turbo-rails"
 
 export default class extends Controller {
   static targets = ["select"]
@@ -19,6 +20,14 @@ export default class extends Controller {
       url.searchParams.set('filter', filter)
     }
 
-    window.location.href = url.toString()
+    fetch(url.toString(), {
+      headers: {
+        'Accept': 'text/vnd.turbo-stream.html'
+      }
+    })
+    .then(response => response.text())
+    .then(html => {
+      Turbo.renderStreamMessage(html)
+    })
   }
 }
