@@ -73,6 +73,7 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to todos_path, status: :see_other, notice: "Todo was successfully destroyed." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@todo) }
       format.json { head :no_content }
     end
   end
