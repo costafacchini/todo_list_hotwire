@@ -15,7 +15,7 @@
       <div class="flex-1 max-w-md">
         <%= f.text_field :title,
             placeholder: "What needs to be done? (press enter to add)",
-            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent #{'border-red-400' if todo.errors[:title].any?}",
+            class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition-colors duration-200 #{'border-red-400' if todo.errors[:title].any?}",
             data: { new_todo_target: "title" } %>
       </div>
 

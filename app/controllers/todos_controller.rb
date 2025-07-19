@@ -44,10 +44,7 @@ class TodosController < ApplicationController
       if @todo.save
         format.html { redirect_to todos_path, notice: "Todo was successfully created." }
         format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.append("todos", partial: "todos/todo_row", locals: { todo: @todo }),
-            turbo_stream.update("new_todo_form", partial: "todos/new_todo_form", locals: { todo: Todo.new })
-          ]
+          render turbo_stream: turbo_stream.append("todos", partial: "todos/todo_row", locals: { todo: @todo })
         }
         format.json { render :show, status: :created, location: @todo }
       else
