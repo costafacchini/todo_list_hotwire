@@ -1,0 +1,9 @@
+<div id="todos" class="space-y-3">
+  <% if @todos.any? %>
+    <% @todos.each do |todo| %>
+      <%= render "todos/todo_row", todo: todo %>
+    <% end %>
+  <% else %>
+    <p class="text-center my-10 text-gray-500">No todos found. Add your first todo above!</p>
+  <% end %>
+</div>
