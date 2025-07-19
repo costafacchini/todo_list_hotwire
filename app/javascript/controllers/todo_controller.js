@@ -25,6 +25,17 @@ export default class extends Controller {
   }
 
   toggleComplete(_) {
+    const filterSelect = document.getElementById('filter-select')
+    const filter = filterSelect ? filterSelect.value : null
+
+    if (filter && filter !== 'all') {
+      const hiddenInput = document.createElement('input')
+      hiddenInput.type = 'hidden'
+      hiddenInput.name = 'filter'
+      hiddenInput.value = filter
+      this.completeFormTarget.appendChild(hiddenInput)
+    }
+
     this.completeFormTarget.requestSubmit()
   }
 }

@@ -70,11 +70,15 @@ class TodosController < ApplicationController
       if @todo.update(todo_params)
         format.html { redirect_to @todo, notice: "Todo was successfully updated." }
         format.turbo_stream {
-          render turbo_stream: turbo_stream.replace(
-            @todo,
-            partial: "todos/todo_row",
-            locals: { todo: @todo }
-          )
+          if params[:filter].blank?
+            render turbo_stream: turbo_stream.replace(
+              @todo,
+              partial: "todos/todo_row",
+              locals: { todo: @todo }
+            )
+          else
+            render turbo_stream: turbo_stream.remove(@todo)
+          end
         }
         format.json { render :show, status: :ok, location: @todo }
       else
