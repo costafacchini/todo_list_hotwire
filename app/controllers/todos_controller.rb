@@ -61,7 +61,15 @@ class TodosController < ApplicationController
         }
         format.json { render :show, status: :ok, location: @todo }
       else
+        @todo.reload
         format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.replace(
+            @todo,
+            partial: "todos/todo_row",
+            locals: { todo: @todo, show_form: true }
+          )
+        }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end
