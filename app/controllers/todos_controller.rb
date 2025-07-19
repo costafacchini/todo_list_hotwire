@@ -3,7 +3,14 @@ class TodosController < ApplicationController
 
   # GET /todos or /todos.json
   def index
-    @todos = Todo.all
+    @todos = case params[:filter]
+    when "completed"
+               Todo.where(completed: true)
+    when "pending"
+               Todo.where(completed: false)
+    else
+               Todo.all
+    end
   end
 
   # GET /todos/1 or /todos/1.json
