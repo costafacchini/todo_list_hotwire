@@ -1,7 +1,7 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: %i[ show edit update destroy ]
+  before_action :set_todo, only: %i[ update destroy ]
 
-  # GET /todos or /todos.json
+  # GET /todos
   def index
     @todos = case params[:filter]
     when "completed"
@@ -23,20 +23,7 @@ class TodosController < ApplicationController
     end
   end
 
-  # GET /todos/1 or /todos/1.json
-  def show
-  end
-
-  # GET /todos/new
-  def new
-    @todo = Todo.new
-  end
-
-  # GET /todos/1/edit
-  def edit
-  end
-
-  # POST /todos or /todos.json
+  # POST /todos
   def create
     @todo = Todo.new(todo_params)
 
@@ -46,9 +33,7 @@ class TodosController < ApplicationController
         format.turbo_stream {
           render turbo_stream: turbo_stream.append("todos", partial: "todos/todo_row", locals: { todo: @todo })
         }
-        format.json { render :show, status: :created, location: @todo }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream {
           render turbo_stream: turbo_stream.replace(
             "new_todo_form",
@@ -56,16 +41,14 @@ class TodosController < ApplicationController
             locals: { todo: @todo }
           )
         }
-        format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /todos/1 or /todos/1.json
+  # PATCH/PUT /todos/1
   def update
     respond_to do |format|
       if @todo.update(todo_params)
-        format.html { redirect_to @todo, notice: "Todo was successfully updated." }
         format.turbo_stream {
           if params[:filter].blank?
             render turbo_stream: turbo_stream.replace(
@@ -77,10 +60,8 @@ class TodosController < ApplicationController
             render turbo_stream: turbo_stream.remove(@todo)
           end
         }
-        format.json { render :show, status: :ok, location: @todo }
       else
         @todo.reload
-        format.html { render :edit, status: :unprocessable_entity }
         format.turbo_stream {
           render turbo_stream: turbo_stream.replace(
             @todo,
@@ -88,19 +69,16 @@ class TodosController < ApplicationController
             locals: { todo: @todo, show_form: true }
           )
         }
-        format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /todos/1 or /todos/1.json
+  # DELETE /todos/1
   def destroy
     @todo.destroy!
 
     respond_to do |format|
-      format.html { redirect_to todos_path, status: :see_other, notice: "Todo was successfully destroyed." }
       format.turbo_stream { render turbo_stream: turbo_stream.remove(@todo) }
-      format.json { head :no_content }
     end
   end
 
